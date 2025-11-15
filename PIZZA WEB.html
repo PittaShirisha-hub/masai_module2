@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domino's Pizza - Order Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ff6600;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .navbar-logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff6600;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .navbar-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Top Section - Order */
+        .order-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 60px 50px;
+            align-items: center;
+        }
+
+        .order-content h1 {
+            font-size: 48px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .order-content p {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        .order-button {
+            padding: 15px 40px;
+            background-color: #fff;
+            color: #ff6600;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .order-image {
+            text-align: center;
+        }
+
+        .pizza-img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 50%;
+        }
+
+        /* Mid Section - Explore */
+        .explore-section {
+            padding: 60px 50px;
+            background-color: #fff;
+        }
+
+        .explore-section h2 {
+            text-align: center;
+            font-size: 36px;
+            color: #ff6600;
+            margin-bottom: 40px;
+        }
+
+        .explore-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .explore-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .explore-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .explore-card img {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .explore-card h3 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .explore-card p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* Bottom Section - Download App */
+        .download-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 60px 50px;
+            background-color: #ff6600;
+        }
+
+        .download-content h2 {
+            font-size: 36px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .download-content p {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        .download-button {
+            padding: 15px 40px;
+            background-color: #fff;
+            color: #ff6600;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .download-image {
+            text-align: center;
+        }
+
+        .app-img {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .order-section {
+                grid-template-columns: 1fr;
+            }
+
+            .download-section {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .explore-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-logo">Domino's Pizza</div>
+        <ul class="navbar-menu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#offers">Offers</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Top Section - Order -->
+    <section class="order-section">
+        <div class="order-content">
+            <h1>Get Fresh Pizza Delivered Hot</h1>
+            <p>Order your favorite pizza online and get it delivered to your doorstep in 30 minutes or less!</p>
+            <button class="order-button">Order Now</button>
+        </div>
+        <div class="order-image">
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&h=500&fit=crop" alt="Delicious Pizza" class="pizza-img">
+        </div>
+    </section>
+
+    <!-- Mid Section - Explore -->
+    <section class="explore-section">
+        <h2>Explore Our Menu</h2>
+        <div class="explore-grid">
+            <div class="explore-card">
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&h=300&fit=crop" alt="Margherita Pizza">
+                <h3>Margherita</h3>
+                <p>Classic cheese and tomato pizza with fresh basil</p>
+            </div>
+            <div class="explore-card">
+                <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=300&h=300&fit=crop" alt="Pepperoni Pizza">
+                <h3>Pepperoni</h3>
+                <p>Loaded with spicy pepperoni and mozzarella</p>
+            </div>
+            <div class="explore-card">
+                <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=300&h=300&fit=crop" alt="Veggie Pizza">
+                <h3>Veggie Delight</h3>
+                <p>Fresh vegetables with herbs and cheese</p>
+            </div>
+            <div class="explore-card">
+                <img src="https://images.unsplash.com/photo-1565564321319-f8756560ac4d?w=300&h=300&fit=crop" alt="BBQ Chicken Pizza">
+                <h3>BBQ Chicken</h3>
+                <p>Smoky BBQ sauce with grilled chicken</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Section - Download App -->
+    <section class="download-section">
+        <div class="download-content">
+            <h2>Download Our App</h2>
+            <p>Get exclusive deals and faster ordering experience with our mobile app!</p>
+            <button class="download-button">Download App</button>
+        </div>
+        <div class="download-image">
+            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=400&fit=crop" alt="Mobile App" class="app-img">
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Domino's Pizza. All rights reserved.</p>
+    </footer>
+</body>
+</html>
