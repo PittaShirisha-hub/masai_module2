@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card</title>
+    <meta name="description" content="Modern profile card component showcasing professional information">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: hsl(210, 40%, 98%);
+            color: hsl(215, 25%, 27%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .profile-card {
+            width: 300px;
+            height: 400px;
+            background-color: hsl(0, 0%, 100%);
+            border-radius: 12px;
+            border: 2px solid hsl(210, 20%, 88%);
+            padding: 20px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                        0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .profile-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15),
+                        0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid hsla(210, 100%, 50%, 0.2);
+            margin-bottom: 24px;
+        }
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-card h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: hsl(215, 25%, 27%);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .profile-card p {
+            text-align: center;
+            color: hsl(215, 13%, 54%);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-card">
+        <div class="profile-image">
+            <img src="data:image/png;base64,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"
+                 alt="Profile">
+        </div>
+        <h2>Shirisha Pitta</h2>
+        <p>Full-stack developer passionate about creating beautiful, functional web applications.</p>
+    </div>
+</body>
+</html>
