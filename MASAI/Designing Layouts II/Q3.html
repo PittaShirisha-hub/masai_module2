@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masai Calculator</title>
+    <style>
+        /* --- General Styling and Box Model --- */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* --- Calculator Container (using Flexbox for centering, Grid for layout) --- */
+        #calculator {
+            width: 300px; /* Overall width of the calculator */
+            border: 2px solid #333;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            /* Set up the inner Grid layout */
+            display: grid;
+            /* Define 4 equal columns (3 numbers + 1 operator column) */
+            grid-template-columns: repeat(4, 1fr); 
+            /* Define 5 rows (1 display row + 4 button rows) */
+            grid-template-rows: auto repeat(4, 1fr);
+            gap: 5px; /* Spacing between buttons */
+        }
+
+        /* --- Display Screen Styling --- */
+        #display {
+            /* Make the display span all 4 columns */
+            grid-column: 1 / span 4; 
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            font-size: 2.5em;
+            text-align: right;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            height: 40px; /* Ensure a consistent height */
+        }
+
+        /* --- Button Styling (using Flexbox for content centering) --- */
+        .button {
+            background-color: #e0e0e0;
+            color: #333;
+            padding: 15px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            /* Flexbox to perfectly center content */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px; /* Consistent button height */
+            user-select: none;
+            transition: background-color 0.1s;
+        }
+
+        .button:hover {
+            background-color: #d0d0d0;
+        }
+
+        /* --- Specific Button Overrides (Colors and Spanning) --- */
+
+        /* Operator buttons (+, -, x, /) */
+        .operator {
+            background-color: #f4622b; /* Orange color from the image */
+            color: white;
+        }
+        .operator:hover {
+            background-color: #e35a26;
+        }
+
+        /* Clear button (C) */
+        .clear-btn {
+            background-color: #ff4d4d; /* Red color from the image */
+            color: white;
+        }
+        .clear-btn:hover {
+            background-color: #e54545;
+        }
+
+        /* Zero button (0) - Spans two columns */
+        .zero-btn {
+            grid-column: 1 / span 2; 
+        }
+
+        /* Equals button (=) */
+        .equals-btn {
+            background-color: #4CAF50; /* Green color */
+            color: white;
+        }
+        .equals-btn:hover {
+            background-color: #45a049;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Masai Calculator</h1>
+
+    <div id="calculator">
+        <div id="display">0</div>
+
+        <div class="button">1</div>
+        <div class="button">2</div>
+        <div class="button">3</div>
+        <div class="button operator">+</div>
+
+        <div class="button">4</div>
+        <div class="button">5</div>
+        <div class="button">6</div>
+        <div class="button operator">-</div>
+
+        <div class="button">7</div>
+        <div class="button">8</div>
+        <div class="button">9</div>
+        <div class="button operator">x</div>
+
+        <div class="button clear-btn">C</div>
+        <div class="button zero-btn">0</div> <div class="button equals-btn">=</div>
+        <div class="button operator">/</div>
+        
+    </div>
+
+</body>
+</html>

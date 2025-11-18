@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Grid Layout</title>
+    <style>
+        /* Basic Reset and Container Styling */
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: sans-serif;
+            display: flex; /* Helps center the grid */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .grid-container {
+            /* Set up the grid */
+            display: grid;
+            /* Define 3 equal-width columns */
+            grid-template-columns: repeat(3, 1fr); 
+            /* Define 3 equal-height rows */
+            grid-template-rows: repeat(3, 1fr); 
+            /* Gap between grid items */
+            gap: 10px; 
+            /* Max width for a clean look */
+            width: 600px; 
+            /* Enforce a height so the '1fr' rows work */
+            height: 450px; 
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Common Box Styling */
+        .box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        /* Unique Box Colors based on the image */
+        /* Row 1 */
+        .box-2 { background-color: #f4622b; } /* Orange */
+        .box-3 { background-color: #2b70f4; } /* Blue */
+        .box-4 { background-color: #f4d02b; } /* Yellow */
+
+        /* Row 2 */
+        .box-5 { background-color: #6a40a5; } /* Purple/Violet */
+        .box-6 { background-color: #68b82a; } /* Bright Green */
+        .box-1 { background-color: #2ac0e7; } /* Light Blue/Cyan */
+
+        /* Row 3 */
+        .box-7 { background-color: #f48c40; } /* Darker Orange/Peach */
+        .box-8 { background-color: #2ae7c0; } /* Teal */
+        .box-9 { background-color: #a52a2a; } /* Maroon/Dark Red */
+
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <div class="box box-2">2.</div> 
+        <div class="box box-3">3.</div>
+        <div class="box box-4">4.</div>
+        <div class="box box-5">5.</div>
+        <div class="box box-6">6.</div> 
+        <div class="box box-1">1.</div>
+        <div class="box box-7">7.</div>
+        <div class="box box-8">8.</div>
+        <div class="box box-9">9.</div>
+    </div>
+</body>
+</html>

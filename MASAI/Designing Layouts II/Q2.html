@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Schedule</title>
+    <style>
+        /* Global Styles and Body Setup */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9; /* Light background for the page */
+        }
+
+        /* Main Container for the entire schedule */
+        .schedule-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Title Styling - Mimicking the design */
+        .schedule-title {
+            text-align: center;
+            font-family: 'Brush Script MT', cursive; /* A script font for effect */
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #4a4a4a;
+            /* Simple stars/design elements */
+            position: relative;
+        }
+
+        /* Using spans for the star visual effect */
+        .schedule-title span {
+            color: gold;
+            font-size: 30px;
+            margin: 0 5px;
+        }
+
+        /* --- CSS GRID LAYOUT --- */
+        .weekly-schedule {
+            display: grid;
+            /* 1 column for Time, 5 columns for Days */
+            /* Using minmax for time column and 1fr for days ensures responsiveness */
+            grid-template-columns: minmax(80px, 0.8fr) repeat(5, 1fr);
+            /* Total rows: 1 header row + 9 time slots (08:00 to 16:00) */
+            grid-template-rows: auto repeat(9, 60px) auto;
+            gap: 5px; /* Spacing between grid cells */
+        }
+
+        /* General Cell Styling */
+        .cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Header Row Styling (Days and empty Time header) */
+        .header-cell {
+            background-color: #e0f7fa; /* Light blue/cyan for header background */
+            color: #00796b; /* Darker color for contrast */
+            font-weight: bolder;
+            /* The top-left cell (empty header) */
+            background-color: transparent;
+            box-shadow: none;
+        }
+        
+        .day-header {
+            background-color: #ffcc80; /* Light orange/yellow for Day headers */
+            color: #e65100; /* Darker orange text */
+        }
+
+        /* Time Column Styling */
+        .time-cell {
+            background-color: #80deea; /* Distinct blue/cyan for time slots */
+            color: #004d40;
+            font-weight: bolder;
+        }
+
+        /* --- Specific Content Cell Styling (Mimicking colors in image) --- */
+
+        /* Monday - Light Pink */
+        .monday {
+            background-color: #f8bbd0;
+            color: #880e4f;
+        }
+        /* Tuesday - Light Yellow */
+        .tuesday {
+            background-color: #fff9c4;
+            color: #f57f17;
+        }
+        /* Wednesday - Light Purple/Pink */
+        .wednesday {
+            background-color: #e1bee7;
+            color: #4a148c;
+        }
+        /* Thursday - Yellow/Orange */
+        .thursday {
+            background-color: #ffe0b2;
+            color: #e65100;
+        }
+        /* Friday - Light Pink/Red */
+        .friday {
+            background-color: #f8bbd0;
+            color: #c62828;
+        }
+
+        /* Note Section Styling */
+        .note-section {
+            grid-column: 1 / span 6; /* Spanning across all columns */
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #b2ebf2; /* Light blue for the note area */
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #004d40;
+        }
+        
+    </style>
+</head>
+<body>
+
+<div class="schedule-container">
+    <div class="schedule-title">
+        <span>&starf;</span>
+        <span>&starf;</span>
+        Weekly schedule
+        <span>&starf;</span>
+        <span>&starf;</span>
+    </div>
+
+    <div class="weekly-schedule">
+        <div class="cell header-cell"></div> <div class="cell day-header">Monday</div>
+        <div class="cell day-header">Tuesday</div>
+        <div class="cell day-header">Wednesday</div>
+        <div class="cell day-header">Thursday</div>
+        <div class="cell day-header">Friday</div>
+
+        <div class="cell time-cell">08:00</div>
+        <div class="cell monday">Maths</div>
+        <div class="cell tuesday">Science</div>
+        <div class="cell wednesday">English</div>
+        <div class="cell thursday">EVS</div>
+        <div class="cell friday">Maths</div>
+
+        <div class="cell time-cell">09:00</div>
+        <div class="cell monday">English</div>
+        <div class="cell tuesday">Maths</div>
+        <div class="cell wednesday">Science</div>
+        <div class="cell thursday">PT</div>
+        <div class="cell friday">Art</div>
+
+        <div class="cell time-cell">10:00</div>
+        <div class="cell monday">EVS</div>
+        <div class="cell tuesday">Art</div>
+        <div class="cell wednesday">Maths</div>
+        <div class="cell thursday">English</div>
+        <div class="cell friday">EVS</div>
+
+        <div class="cell time-cell">11:00</div>
+        <div class="cell monday">PT</div>
+        <div class="cell tuesday">English</div>
+        <div class="cell wednesday">PT</div>
+        <div class="cell thursday">Science</div>
+        <div class="cell friday">PT</div>
+
+        <div class="cell time-cell">12:00</div>
+        <div class="cell monday">Break</div>
+        <div class="cell tuesday">Break</div>
+        <div class="cell wednesday">Break</div>
+        <div class="cell thursday">Break</div>
+        <div class="cell friday">Break</div>
+
+        <div class="cell time-cell">13:00</div>
+        <div class="cell monday">Science</div>
+        <div class="cell tuesday">EVS</div>
+        <div class="cell wednesday">EVS</div>
+        <div class="cell thursday">Maths</div>
+        <div class="cell friday">Hindi</div>
+
+        <div class="cell time-cell">14:00</div>
+        <div class="cell monday">Hindi</div>
+        <div class="cell tuesday">Hindi</div>
+        <div class="cell wednesday">Hindi</div>
+        <div class="cell thursday">Exams</div>
+        <div class="cell friday">Exams</div>
+
+        <div class="cell time-cell">15:00</div>
+        <div class="cell monday">Art</div>
+        <div class="cell tuesday">Library</div>
+        <div class="cell wednesday">Library</div>
+        <div class="cell thursday">Library</div>
+        <div class="cell friday">Library</div>
+
+        <div class="cell time-cell">16:00</div>
+        <div class="cell monday">Clubs</div>
+        <div class="cell tuesday">Clubs</div>
+        <div class="cell wednesday">Clubs</div>
+        <div class="cell thursday">Clubs</div>
+        <div class="cell friday">Clubs</div>
+
+        <div class="note-section">
+            Note: Add any relevant notes about the weekly schedule here.
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
