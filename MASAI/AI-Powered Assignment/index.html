@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Dev | Creative Developer</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8; /* Light Blue */
+            --accent-hover: #0ea5e9;
+            --nav-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        header {
+            background-color: rgba(15, 23, 42, 0.95);
+            height: var(--nav-height);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Hamburger Menu (Hidden on Desktop) */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* --- HERO SECTION --- */
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: var(--nav-height);
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 70%);
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-content span {
+            color: var(--accent);
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--bg-color);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+        }
+
+        /* --- SKILLS SECTION --- */
+        #skills {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Desktop: 3 Columns */
+            gap: 25px;
+        }
+
+        .skill-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px); /* Bonus: Hover animation */
+            border-color: var(--accent);
+        }
+
+        .skill-card i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .skill-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .skill-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--card-bg);
+            padding: 50px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            color: var(--bg-color);
+            transform: scale(1.1);
+        }
+
+        /* --- RESPONSIVENESS --- */
+
+        /* Tablet (768px - 1023px) */
+        @media (max-width: 1023px) {
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr); /* Tablet: 2 Columns */
+            }
+            
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+        }
+
+        /* Mobile (Max 767px) */
+        @media (max-width: 767px) {
+            /* Nav Logic */
+            .hamburger {
+                display: block;
+                z-index: 1001;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%; /* Hide off-screen */
+                height: 100vh;
+                width: 70%;
+                background-color: var(--card-bg);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                transition: right 0.3s ease-in-out;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            }
+
+            .nav-links.active {
+                right: 0; /* Slide in */
+            }
+
+            /* Hero Reflow */
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+
+            /* Skills Stacked */
+            .skills-grid {
+                grid-template-columns: 1fr; /* Mobile: 1 Column */
+            }
+
+            /* Spacing adjustments */
+            #skills {
+                padding: 50px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Alex<span style="color:white">Dev</span>.</div>
+                
+                <!-- Navigation Links -->
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#hero" onclick="toggleMenu()">Home</a></li>
+                    <li><a href="#skills" onclick="toggleMenu()">Skills</a></li>
+                    <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+                </ul>
+
+                <!-- Hamburger Icon -->
+                <div class="hamburger" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container hero-content">
+            <h1>Building the Future <br> with <span>Code</span> & <span>AI</span></h1>
+            <p>I'm a frontend developer passionate about building responsive, accessible, and performant web applications.</p>
+            <a href="#contact" class="btn">Contact Me</a>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title">My Skills</h2>
+            <div class="skills-grid">
+                <!-- Skill 1 -->
+                <div class="skill-card">
+                    <i class="fab fa-html5"></i>
+                    <h3>HTML5</h3>
+                    <p>Semantic markup and accessible structure.</p>
+                </div>
+                <!-- Skill 2 -->
+                <div class="skill-card">
+                    <i class="fab fa-css3-alt"></i>
+                    <h3>CSS3</h3>
+                    <p>Flexbox, Grid, and responsive design mastery.</p>
+                </div>
+                <!-- Skill 3 -->
+                <div class="skill-card">
+                    <i class="fab fa-js"></i>
+                    <h3>JavaScript</h3>
+                    <p>Dynamic ES6+ logic and DOM manipulation.</p>
+                </div>
+                <!-- Skill 4 -->
+                <div class="skill-card">
+                    <i class="fab fa-react"></i>
+                    <h3>React</h3>
+                    <p>Component-based UI architecture.</p>
+                </div>
+                <!-- Skill 5 -->
+                <div class="skill-card">
+                    <i class="fab fa-git-alt"></i>
+                    <h3>Git</h3>
+                    <p>Version control and team collaboration.</p>
+                </div>
+                <!-- Skill 6 -->
+                <div class="skill-card">
+                    <i class="fas fa-robot"></i>
+                    <h3>AI Tools</h3>
+                    <p>Leveraging LLMs for rapid prototyping.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <h2 style="margin-bottom: 1rem;">Let's Connect</h2>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="mailto:email@example.com"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p style="color: var(--text-muted);">&copy; 2024 Alex Developer. Built with AI assistance.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const hamburger = document.querySelector('.hamburger i');
+            
+            // Toggle Active Class
+            navLinks.classList.toggle('active');
+
+            // Change Icon from Hamburger to X
+            if (navLinks.classList.contains('active')) {
+                hamburger.classList.remove('fa-bars');
+                hamburger.classList.add('fa-times');
+            } else {
+                hamburger.classList.remove('fa-times');
+                hamburger.classList.add('fa-bars');
+            }
+        }
+    </script>
+</body>
+</html>
