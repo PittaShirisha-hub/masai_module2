@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mini Fleet Management App</title>
+
+<style>
+:root{--bg:#f7f7f8;--card:#fff;--accent:#2b6cb0}
+*{box-sizing:border-box;font-family:system-ui,Arial,Helvetica,sans-serif}
+body{margin:0;background:var(--bg);color:#111}
+.container{max-width:1000px;margin:28px auto;padding:0 16px}
+.card{background:var(--card);padding:16px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+h1,h2,h3{margin:0 0 12px}
+form label{display:block;margin:8px 0;font-size:14px}
+input,select{display:block;width:100%;padding:8px;margin-top:6px;border:1px solid #ddd;border-radius:4px}
+.btn{background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:6px;cursor:pointer}
+.btn.small{padding:6px 8px;font-size:13px}
+.navbar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
+.layout{display:flex;gap:16px;margin-top:12px}
+.sidebar{width:280px}
+.main-content{flex:1}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.card-vehicle{padding:10px;border-radius:8px;border:1px solid #eee;background:#fff}
+.card-vehicle img{width:100%;height:120px;object-fit:cover;border-radius:6px}
+.meta{font-size:13px;margin:8px 0}
+.card-actions{display:flex;gap:6px}
+.card-actions button{flex:1;padding:8px}
+.hint{color:#666;margin-top:10px}
+.hidden{display:none}
+@media(max-width:700px){.layout{flex-direction:column}.sidebar{width:100%}}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+<section id="loginPage">
+  <main class="container">
+    <h1>Fleet Management - Login</h1>
+    <form id="loginForm" class="card">
+      <label>Email<input type="email" id="email" required placeholder="admin@mail.com"></label>
+      <label>Password<input type="password" id="password" required placeholder="admin1234"></label>
+      <button type="submit" class="btn">Login</button>
+    </form>
+    <p class="hint">Use <b>admin@mail.com</b> / <b>admin1234</b></p>
+  </main>
+</section>
+
+<!-- ADMIN DASHBOARD -->
+<section id="adminPage" class="hidden">
+  <header class="navbar">
+    <h2>Fleet Dashboard</h2>
+    <div class="filters">
+      <select id="filterCategory">
+        <option value="all">All Categories</option>
+        <option value="Car">Car</option>
+        <option value="Auto">Auto</option>
+        <option value="Truck">Truck</option>
+        <option value="Bus">Bus</option>
+      </select>
+
+      <select id="filterAvailability">
+        <option value="all">All Availability</option>
+        <option value="Available">Available</option>
+        <option value="Unavailable">Unavailable</option>
+      </select>
+
+      <button id="clearFilters" class="btn small">Clear Filter</button>
+    </div>
+  </header>
+
+  <div class="layout container">
+    <aside class="sidebar card">
+      <h3>Add Fleet</h3>
+      <form id="addFleetForm">
+        <label>Reg No<input type="text" id="regNo" required></label>
+        <label>Category
+          <select id="category">
+            <option value="Car">Car</option>
+            <option value="Auto">Auto</option>
+            <option value="Truck">Truck</option>
+            <option value="Bus">Bus</option>
+          </select>
+        </label>
+        <label>Driver Name<input type="text" id="driver" placeholder="Optional"></label>
+        <label>Availability
+          <select id="availability">
+            <option value="Available">Available</option>
+            <option value="Unavailable">Unavailable</option>
+          </select>
+        </label>
+        <button type="submit" class="btn">Add Vehicle</button>
+      </form>
+    </aside>
+
+    <main class="main-content">
+      <div id="cardsContainer" class="cards"></div>
+    </main>
+  </div>
+</section>
+
+<script>
+(function(){
+  const ADMIN_EMAIL='admin@mail.com';
+  const ADMIN_PASS='admin1234';
+  const SAMPLE_IMG='https://coding-platform.s3.amazonaws.com/dev/lms/tickets/5e80fcb6-3f8e-480c-945b-30a5359eb40e/JNmYjkVr3WOjsrbu.png';
+  const LS_KEY='masai_fleets_v1';
+
+  const loginPage=document.getElementById('loginPage');
+  const adminPage=document.getElementById('adminPage');
+
+  const loginForm=document.getElementById('loginForm');
+  const email=document.getElementById('email');
+  const password=document.getElementById('password');
+
+  const addForm=document.getElementById('addFleetForm');
+  const cardsContainer=document.getElementById('cardsContainer');
+  const filterCategory=document.getElementById('filterCategory');
+  const filterAvailability=document.getElementById('filterAvailability');
+  const clearFiltersBtn=document.getElementById('clearFilters');
+
+  function qs(sel){return document.querySelector(sel)}
+  function genId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+  function loadFleets(){
+    try{
+      const raw=localStorage.getItem(LS_KEY);
+      if(!raw) return initData();
+      return JSON.parse(raw);
+    }catch(e){return initData();}
+  }
+  function saveFleets(arr){localStorage.setItem(LS_KEY,JSON.stringify(arr));}
+  function initData(){
+    const sample=[
+      {id:genId(),reg:'KA01AA0001',category:'Car',driver:'Ravi',availability:'Available',img:SAMPLE_IMG},
+      {id:genId(),reg:'KA02BB0002',category:'Truck',driver:'Suresh',availability:'Unavailable',img:SAMPLE_IMG},
+    ];
+    saveFleets(sample);
+    return sample;
+  }
+  function escapeHtml(s){
+    if(!s) return '';
+    return String(s).replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]));
+  }
+
+  // LOGIN LOGIC
+  loginForm.addEventListener('submit',e=>{
+    e.preventDefault();
+    if(email.value.trim()===ADMIN_EMAIL && password.value===ADMIN_PASS){
+      localStorage.setItem('masai_logged_in','true');
+      loginPage.classList.add('hidden');
+      adminPage.classList.remove('hidden');
+      render();
+    } else {
+      alert('Invalid credentials');
+    }
+  });
+
+  if(localStorage.getItem('masai_logged_in')){
+    loginPage.classList.add('hidden');
+    adminPage.classList.remove('hidden');
+  }
+
+  let fleets=loadFleets();
+  let filters={category:'all',availability:'all'};
+
+  // Render FLEETS
+  function render(){
+    const filtered = fleets.filter(f=>{
+      if(filters.category!=='all' && f.category!==filters.category) return false;
+      if(filters.availability!=='all' && f.availability!==filters.availability) return false;
+      return true;
+    });
+
+    cardsContainer.innerHTML='';
+    if(filtered.length===0){
+      cardsContainer.innerHTML='<div class="card card-vehicle">No vehicles found</div>';
+      return;
+    }
+
+    filtered.forEach(f=>{
+      const div=document.createElement('div');
+      div.className='card card-vehicle';
+      div.innerHTML=`
+        <img src="${f.img}">
+        <div class="meta"><strong>Reg:</strong> ${escapeHtml(f.reg)}<br>
+        <strong>Category:</strong> ${escapeHtml(f.category)}<br>
+        <strong>Driver:</strong> ${escapeHtml(f.driver||'--')}<br>
+        <strong>Status:</strong> ${escapeHtml(f.availability)}</div>
+        <div class="card-actions">
+          <button class="btn update">Update Driver</button>
+          <button class="btn toggle">Change Availability</button>
+          <button class="btn delete">Delete</button>
+        </div>
+      `;
+
+      div.querySelector('.update').onclick=()=>{
+        const name=prompt('Enter new driver name',f.driver||'');
+        if(name!==null && name.trim()!==''){
+          f.driver=name.trim();
+          saveFleets(fleets); render();
+        }
+      };
+
+      div.querySelector('.toggle').onclick=()=>{
+        f.availability=(f.availability==='Available')?'Unavailable':'Available';
+        saveFleets(fleets); render();
+      };
+
+      div.querySelector('.delete').onclick=()=>{
+        if(confirm('Delete this vehicle?')){
+          fleets=fleets.filter(x=>x.id!==f.id);
+          saveFleets(fleets); render();
+        }
+      };
+
+      cardsContainer.appendChild(div);
+    });
+  }
+
+  // Add Fleet
+  addForm.addEventListener('submit',e=>{
+    e.preventDefault();
+    const reg=qs('#regNo').value.trim();
+    const cat=qs('#category').value;
+    const driver=qs('#driver').value.trim();
+    const avail=qs('#availability').value;
+
+    if(!reg){alert('Reg No required');return;}
+    if(fleets.some(x=>x.reg.toLowerCase()===reg.toLowerCase())){alert('Reg already exists');return;}
+
+    fleets.push({id:genId(),reg,category:cat,driver:driver||'--',availability:avail,img:SAMPLE_IMG});
+    saveFleets(fleets);
+    addForm.reset();
+    render();
+  });
+
+  // FILTERS
+  filterCategory.onchange=()=>{filters.category=filterCategory.value;render();}
+  filterAvailability.onchange=()=>{filters.availability=filterAvailability.value;render();}
+  clearFiltersBtn.onclick=()=>{
+    filters={category:'all',availability:'all'};
+    filterCategory.value='all'; filterAvailability.value='all';
+    render();
+  };
+
+  if(localStorage.getItem('masai_logged_in')) render();
+})();
+</script>
+
+</body>
+</html>
