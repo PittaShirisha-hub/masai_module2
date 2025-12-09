@@ -3,269 +3,145 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Todos – Fetch + LocalStorage</title>
-  <style>
-    :root{
-      --bg: #0f172a;          /* slate-900 */
-      --panel: #111827;       /* gray-900 */
-      --muted: #94a3b8;       /* slate-400 */
-      --text: #e5e7eb;        /* gray-200 */
-      --accent: #22c55e;      /* green-500 */
-      --accent-2: #3b82f6;    /* blue-500 */
-      --danger: #ef4444;      /* red-500 */
-      --card: #0b1220;        /* dark card */
-      --border: #1f2937;      /* gray-800 */
-    }
-    *{ box-sizing: border-box; }
-    body{
-      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
-      background: radial-gradient(1200px 600px at 20% -10%, #0b1530, transparent),
-                  radial-gradient(1000px 500px at 120% 10%, #082032, transparent), var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display:flex; align-items: center; justify-content: center;
-      padding: 24px;
-    }
-    .app{
-      width: min(900px, 100%);
-      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-      border: 1px solid var(--border);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      border-radius: 18px;
-      padding: 24px;
-    }
-    header{
-      display:flex; align-items:center; justify-content: space-between; gap: 16px;
-      margin-bottom: 18px;
-    }
-    .title{
-      font-weight: 800; letter-spacing: .4px; font-size: clamp(20px, 4vw, 28px);
-      display:flex; align-items:center; gap:10px;
-    }
-    .title .dot{ width:10px; height:10px; border-radius:999px; background: var(--accent); display:inline-block; }
-    .muted{ color: var(--muted); font-size: 14px; }
-    .actions{ display:flex; gap:8px; flex-wrap: wrap; }
-    button, .btn{
-      appearance: none; border: 1px solid var(--border); background: #0b1120; color: var(--text);
-      padding: 10px 14px; border-radius: 12px; font-weight: 600; cursor: pointer;
-      transition: transform .06s ease, background .2s ease, border-color .2s ease;
-    }
-    button:hover{ transform: translateY(-1px); border-color: #334155; }
-    .btn-primary{ background: #0d1a2b; border-color: #1f3a5f; }
-    .btn-accent{ background: #0c1f15; border-color: #1d5d3a; }
-    .btn-danger{ background: #1a0f10; border-color: #5c1a1a; }
-
-    .searchbar{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-    .searchbar input{
-      width: min(420px, 100%);
-      background: #0a1220; border: 1px solid var(--border); color: var(--text);
-      padding: 10px 12px; border-radius: 12px; outline: none;
-    }
-
-    ul#todo-list{ list-style:none; padding:0; margin: 16px 0 0 0; display:grid; gap: 10px; }
-    .todo{
-      display:grid; grid-template-columns: auto 1fr auto auto; gap: 12px; align-items:center;
-      background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px;
-    }
-    .todo .title{ font-size: 16px; font-weight: 700; }
-    .status-badge{
-      font-size: 12px; font-weight: 800; letter-spacing: .3px; text-transform: uppercase;
-      padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border);
-    }
-    .status-true{ background: rgba(34, 197, 94, .12); }
-    .status-false{ background: rgba(59, 130, 246, .12); }
-
-    .pill{
-      font-size: 12px; padding: 6px 10px; border-radius: 999px; background: #0b1629; border: 1px solid var(--border);
-    }
-
-    .empty{
-      border: 1px dashed #334155; border-radius: 14px; padding: 24px; text-align:center; color: var(--muted);
-    }
-
-    .footer{ margin-top: 16px; display:flex; justify-content: space-between; align-items:center; gap: 10px; }
-    .footer small{ color: var(--muted); }
-
-    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
-  </style>
+  <title>AI-Powered Daily Time Tracking</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <main class="app" aria-live="polite">
-    <header>
-      <div>
-        <div class="title"><span class="dot"></span> Todo Dashboard</div>
-        <div class="muted">Fetches from JSONPlaceholder → stores first 20 in LocalStorage</div>
+  <div id="app">
+    <!-- Landing / Auth -->
+    <section id="landing" class="card">
+      <div class="brand">
+        <span class="dot online"></span>
+        <h1>TimeTrack<span class="accent">AI</span></h1>
       </div>
-      <div class="actions">
-        <button id="btn-refetch" class="btn-primary" title="Fetch from API and store first 20">Fetch 20 Todos</button>
-        <button id="btn-clear" class="btn-danger" title="Clear stored todos">Clear Storage</button>
-      </div>
-    </header>
+      <p class="muted">Log your day in minutes and analyse where your 24 hours go — securely.</p>
 
-    <section class="searchbar" aria-label="Toolbar">
-      <input id="search" placeholder="Filter by title… (client-side)" aria-label="Filter todos by title" />
-      <span class="pill" id="count-pill">0 items</span>
+      <div class="auth-actions">
+        <button id="googleSignIn" class="btn primary">Continue with Google</button>
+        <div class="divider"><span>or</span></div>
+        <form id="emailForm" class="grid">
+          <input id="email" type="email" placeholder="Email" required />
+          <input id="password" type="password" placeholder="Password" required />
+          <div class="row">
+            <button id="emailSignIn" class="btn">Sign in</button>
+            <button id="emailSignUp" type="button" class="btn outline">Create account</button>
+          </div>
+        </form>
+      </div>
+
+      <footer class="tiny">Built with Firebase + Chart.js. Design assisted by AI.</footer>
     </section>
 
-    <ul id="todo-list" aria-label="Todo list"></ul>
+    <!-- App Shell -->
+    <section id="appShell" class="hidden">
+      <header class="shell-header">
+        <div class="brand small">
+          <span class="dot online"></span>
+          <h2>TimeTrack<span class="accent">AI</span></h2>
+        </div>
+        <div class="spacer"></div>
+        <div class="userbar">
+          <span id="userEmail" class="muted"></span>
+          <button id="signOut" class="btn danger">Sign out</button>
+        </div>
+      </header>
 
-    <div class="empty" id="empty-state" hidden>
-      <strong>No Todos Available</strong><br/>
-      Click <em>Fetch 20 Todos</em> to load sample tasks.
-    </div>
+      <nav class="tabs">
+        <button data-tab="log" class="tab active">Log Activities</button>
+        <button data-tab="dash" class="tab">Dashboard</button>
+      </nav>
 
-    <div class="footer">
-      <small>Built with <code>fetch</code> + <code>localStorage</code>. No frameworks.</small>
-      <small id="status-msg" aria-live="polite"></small>
-    </div>
-  </main>
+      <main class="shell-main">
+        <!-- Left panel: log -->
+        <section id="tab-log" class="tabview">
+          <div class="controls card">
+            <label class="row">
+              <span class="label">Date</span>
+              <input id="logDate" type="date" />
+            </label>
 
-  <script>
-    // ======= Config =======
-    const API_URL = 'https://jsonplaceholder.typicode.com/todos';
-    const STORAGE_KEY = 'todos';
+            <form id="activityForm" class="grid">
+              <input id="actTitle" type="text" placeholder="Activity (e.g., Study DSA)" required />
+              <select id="actCategory">
+                <option>Work</option>
+                <option>Study</option>
+                <option>Sleep</option>
+                <option>Entertainment</option>
+                <option>Exercise</option>
+                <option>Chores</option>
+                <option>Other</option>
+              </select>
+              <input id="actMinutes" type="number" min="1" max="1440" placeholder="Minutes" required />
+              <button class="btn primary">Add</button>
+            </form>
 
-    // ======= DOM Refs =======
-    const listEl = document.getElementById('todo-list');
-    const emptyStateEl = document.getElementById('empty-state');
-    const countPill = document.getElementById('count-pill');
-    const statusMsg = document.getElementById('status-msg');
-    const searchInput = document.getElementById('search');
+            <div class="row wrap">
+              <span id="remaining" class="chip">Remaining: 1440 min</span>
+              <span id="total" class="chip">Total: 0 min</span>
+              <button id="analyseBtn" class="btn success" disabled>Analyse</button>
+            </div>
+          </div>
 
-    // ======= Core Functions =======
-    async function fetchTodos() {
-      const res = await fetch(API_URL);
-      if (!res.ok) throw new Error('Network error: ' + res.status);
-      const data = await res.json();
-      return data.slice(0, 20);
-    }
+          <div id="activities" class="card">
+            <h3 class="section-title">Activities</h3>
+            <ul id="activityList" class="list"></ul>
+            <div id="emptyList" class="empty muted hidden">No activities yet. Add your first entry above.</div>
+          </div>
+        </section>
 
-    function storeTodos(todos) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
-    }
+        <!-- Right panel: dashboard -->
+        <section id="tab-dash" class="tabview hidden">
+          <div class="controls card row wrap">
+            <label class="row">
+              <span class="label">Date</span>
+              <input id="dashDate" type="date" />
+            </label>
+            <div class="spacer"></div>
+            <button id="refreshDash" class="btn">Refresh</button>
+          </div>
 
-    function getStoredTodos() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-      } catch (e) {
-        console.error('Failed to parse stored todos', e);
-        return [];
-      }
-    }
+          <div id="noData" class="card center hidden">
+            <img src="assets/no-data.svg" alt="No data" class="empty-illustration" />
+            <h3>No data available</h3>
+            <p class="muted">Start logging your day to unlock insights.</p>
+          </div>
 
-    function setStatus(message) {
-      statusMsg.textContent = message;
-      if (!message) return;
-      clearTimeout(setStatus._t);
-      setStatus._t = setTimeout(() => (statusMsg.textContent = ''), 2000);
-    }
+          <div id="dashContent" class="grid2 hidden">
+            <div class="card">
+              <h3 class="section-title">Summary</h3>
+              <div class="stats">
+                <div class="stat"><span id="sumTotal">0h</span><label>Total Time</label></div>
+                <div class="stat"><span id="sumActivities">0</span><label># Activities</label></div>
+                <div class="stat"><span id="sumCategories">0</span><label># Categories</label></div>
+              </div>
+            </div>
 
-    function deleteTodo(id) {
-      const todos = getStoredTodos().filter(t => t.id !== id);
-      storeTodos(todos);
-      renderTodos();
-      setStatus('Deleted todo #' + id);
-    }
+            <div class="card">
+              <h3 class="section-title">By Category</h3>
+              <canvas id="pie"></canvas>
+            </div>
 
-    function toggleTodo(id) {
-      const todos = getStoredTodos();
-      const idx = todos.findIndex(t => t.id === id);
-      if (idx > -1) {
-        todos[idx].completed = !todos[idx].completed;
-        storeTodos(todos);
-        renderTodos();
-        setStatus('Toggled todo #' + id);
-      }
-    }
+            <div class="card span2">
+              <h3 class="section-title">Activity Durations</h3>
+              <canvas id="bar"></canvas>
+            </div>
+          </div>
+        </section>
+      </main>
+    </section>
+  </div>
 
-    // Render with optional filter text
-    function renderTodos(filterText = '') {
-      const todos = getStoredTodos();
-      const ft = filterText.trim().toLowerCase();
-      const filtered = ft ? todos.filter(t => String(t.title).toLowerCase().includes(ft)) : todos;
+  <!-- Firebase compat builds -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
-      listEl.innerHTML = '';
-      countPill.textContent = `${filtered.length} item${filtered.length !== 1 ? 's' : ''}`;
-
-      if (filtered.length === 0) {
-        emptyStateEl.hidden = false;
-        return;
-      }
-      emptyStateEl.hidden = true;
-
-      const frag = document.createDocumentFragment();
-      for (const t of filtered) {
-        const li = document.createElement('li');
-        li.className = 'todo';
-        li.dataset.id = t.id;
-        li.innerHTML = `
-          <button class="btn btn-accent toggle" aria-pressed="${t.completed}" title="Mark complete/incomplete">
-            ${t.completed ? '✔' : '○'}
-          </button>
-          <div class="title">${escapeHtml(t.title)}</div>
-          <span class="status-badge ${'status-' + t.completed}">${t.completed ? 'Completed' : 'Pending'}</span>
-          <button class="btn btn-danger delete" title="Delete todo">Delete</button>
-        `;
-        frag.appendChild(li);
-      }
-      listEl.appendChild(frag);
-    }
-
-    // ======= Utilities =======
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
-    }
-
-    // ======= Event Wiring =======
-    document.getElementById('btn-refetch').addEventListener('click', async () => {
-      try {
-        const todos = await fetchTodos();
-        storeTodos(todos);
-        renderTodos(searchInput.value);
-        setStatus('Fetched and stored 20 todos');
-      } catch (e) {
-        console.error(e);
-        setStatus('Failed to fetch. Check your connection.');
-      }
-    });
-
-    document.getElementById('btn-clear').addEventListener('click', () => {
-      localStorage.removeItem(STORAGE_KEY);
-      renderTodos(searchInput.value);
-      setStatus('Cleared storage');
-    });
-
-    // Event delegation for list actions
-    listEl.addEventListener('click', (e) => {
-      const li = e.target.closest('.todo');
-      if (!li) return;
-      const id = Number(li.dataset.id);
-
-      if (e.target.closest('.delete')) {
-        deleteTodo(id);
-      } else if (e.target.closest('.toggle')) {
-        toggleTodo(id);
-      }
-    });
-
-    // Filter typing
-    searchInput.addEventListener('input', (e) => {
-      renderTodos(e.target.value);
-    });
-
-    // ======= Initial Load =======
-    (async function init(){
-      const existing = getStoredTodos();
-      if (existing.length === 0) {
-        try { storeTodos(await fetchTodos()); } catch (e) { /* ignore */ }
-      }
-      renderTodos();
-    })();
-  </script>
+  <script src="firebaseConfig.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
