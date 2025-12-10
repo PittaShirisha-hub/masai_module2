@@ -1,0 +1,10 @@
+*{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;}
+body{margin:0;padding:20px;background:#f6f8fb;color:#111;}
+.card{background:#fff;padding:16px;border-radius:12px;box-shadow:0 6px 20px rgba(20,20,50,0.06);margin-bottom:16px;}
+header{display:flex;gap:12px;align-items:center;justify-content:space-between;}
+button{padding:8px 12px;border-radius:8px;border:0;cursor:pointer;transition:transform .12s ease;}
+button:hover{transform:translateY(-2px);}
+@media (max-width:600px){
+  body{padding:12px;}
+  .card{padding:12px;}
+}

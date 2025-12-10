@@ -1,0 +1,68 @@
+
+---
+
+# 3) Key code snippets
+
+## `index.html` (skeleton)
+```html
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Time Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- Landing / Login -->
+    <div id="auth-view" class="card">
+      <h1>AI Time Tracker</h1>
+      <button id="googleSignIn">Sign in with Google</button>
+      <form id="emailSignIn">
+        <input id="email" type="email" placeholder="Email" />
+        <input id="password" type="password" placeholder="Password" />
+        <button type="submit">Sign In / Register</button>
+      </form>
+    </div>
+
+    <!-- Main app -->
+    <div id="main-view" style="display:none;">
+      <header>
+        <input type="date" id="dayPicker" />
+        <button id="signOutBtn">Sign out</button>
+      </header>
+
+      <section id="activity-form" class="card">
+        <input id="activityTitle" placeholder="Activity name" />
+        <select id="activityCategory">
+          <option value="Work">Work</option>
+          <option value="Study">Study</option>
+          <option value="Sleep">Sleep</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="Exercise">Exercise</option>
+          <option value="Other">Other</option>
+        </select>
+        <input id="activityMinutes" type="number" min="1" placeholder="Minutes" />
+        <button id="addActivityBtn">Add Activity</button>
+        <div id="remainingText"></div>
+      </section>
+
+      <section id="activitiesList" class="card"></section>
+
+      <section id="analytics" class="card">
+        <button id="analyseBtn" disabled>Analyse</button>
+        <div id="noData" style="display:none;">No data available. Start logging your day!</div>
+        <canvas id="pieChart" style="max-width:400px;"></canvas>
+        <div id="summaryStats"></div>
+      </section>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
